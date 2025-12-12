@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>BusinessPilot AI</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Dein KI-Mitarbeiter für Verkauf & Kundenanfragen</h1>
+<p>Beantwortet Anfragen, qualifiziert Leads und bucht Termine – 24/7.</p>
+
+<div id="chatbox">
+  <div id="messages"></div>
+  <input id="input" placeholder="Schreib deine Frage..." />
+  <button onclick="send()">Senden</button>
+</div>
+
+<h2>Warum BusinessPilot AI?</h2>
+<ul>
+  <li>Mehr Leads</li>
+  <li>Weniger Zeitverlust</li>
+  <li>Kein Personal</li>
+</ul>
+
+<script>
+async function send() {
+  const input = document.getElementById("input");
+  const msg = input.value;
+  if (!msg) return;
+
+  addMessage("Du", msg);
+  input.value = "";
+
+  const res = await fetch("/chat", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({message: msg})
+  });
+
+  const data = await res.json();
+  addMessage("Bot", data.reply);
+}
+
+function addMessage(sender, text) {
+  const messages = document.getElementById("messages");
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  messages.appendChild(div);
+}
+</script>
+
+</body>
+</html>
