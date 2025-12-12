@@ -1,0 +1,109 @@
+{
+  "default": {
+    "brand": {
+      "name": "NeuraPilot",
+      "badge": "Live-Demo • KI Sales Agent",
+      "logoText": "NP"
+    },
+    "links": {
+      "demo": "{{DEMO_LINK}}"
+    },
+    "copy": {
+      "headline": "Dein KI-Mitarbeiter für Leads, Support & Termine.",
+      "subheadline": "Beantwortet Anfragen in Sekunden, qualifiziert Interessenten und führt sie zur Demo — 24/7, ohne zusätzliches Personal.",
+      "primaryCta": "Kostenlose Demo buchen",
+      "secondaryCta": "Live testen",
+      "chatTitle": "Live Chat Demo",
+      "chatSubtitle": "Teste den Bot wie ein echter Kunde.",
+      "featuresTitle": "Features, die wirklich verkaufen",
+      "featuresSubtitle": "Ein Bot, der nicht nur antwortet — sondern abschließt.",
+      "pricingTitle": "Preise",
+      "pricingSubtitle": "Start schlank. Upgrade wenn’s knallt.",
+      "closingTitle": "Willst du das für dein Business?",
+      "closingSubtitle": "10 Minuten Demo, kostenlos. Danach weißt du, ob’s sich lohnt."
+    },
+    "theme": {
+      "accentA": "#a78bfa",
+      "accentB": "#22d3ee",
+      "bg": "#070A12",
+      "cardOpacity": 0.08
+    },
+    "chat": {
+      "welcome": "Hi! Ich bin NeuraPilot. Was verkaufst du — und wo verlierst du aktuell die meisten Leads?",
+      "placeholder": "Schreib z.B.: „Ich bin Agenturinhaber“",
+      "hint": "Tipp: Schreib „Ich bekomme viele Anfragen, aber keine Termine“."
+    },
+    "pricing": [
+      {
+        "name": "Starter",
+        "price": "99€",
+        "period": "/Monat",
+        "items": [
+          "Website-Chat",
+          "Lead-Qualifizierung",
+          "CTA-Link"
+        ]
+      },
+      {
+        "name": "Growth",
+        "tag": "Beliebt",
+        "price": "299€",
+        "period": "/Monat",
+        "items": [
+          "Sales + Support",
+          "Bessere Prompts",
+          "Monatliche Optimierung"
+        ],
+        "highlight": true
+      },
+      {
+        "name": "Pro",
+        "price": "699€",
+        "period": "/Monat",
+        "items": [
+          "Custom Bot je Firma",
+          "Reporting",
+          "Priorität Support"
+        ]
+      }
+    ]
+  },
+  "agency": {
+    "brand": {
+      "badge": "Agency Edition • Lead Qualifier"
+    },
+    "copy": {
+      "headline": "Mehr Agentur-Termine aus Website-Leads — automatisch.",
+      "subheadline": "NeuraPilot qualifiziert Leads (Service/Timing/Budget), behandelt Einwände und schickt warme Leads direkt in deinen Kalender."
+    },
+    "chat": {
+      "welcome": "Hi! Geht’s bei dir eher um Ads (Google/Meta) oder um Website/Landingpage?"
+    }
+  },
+  "agentur_meyer": {
+    "brand": {
+      "name": "Meyer Media",
+      "logoText": "MM"
+    },
+    "links": {
+      "demo": "https://calendly.com/meyer/demo"
+    },
+    "allowed_domains": [
+      "meyer-media.de",
+      "www.meyer-media.de"
+    ],
+    "widget_key": "…",
+    "widget": {
+      "button_text": "Chat starten",
+      "position": "right",
+      "accent": "#22d3ee",
+      "title": "Meyer Media AI",
+      "subtitle": "Antwortet • qualifiziert • bucht Termine",
+      "greeting": "Hi! 👋 Worum geht’s bei deinem Projekt?",
+      "width": 380,
+      "height": 560
+    },
+    "lead_email_to": "leads@meyer-media.de"
+  }
+}
+

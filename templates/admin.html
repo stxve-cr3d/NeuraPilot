@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>NeuraPilot Admin</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <style>
+    .adminWrap{padding:24px 0}
+    .adminTop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .select,.inp{
+      border-radius:14px;border:1px solid var(--line);
+      background: rgba(0,0,0,.18); color: var(--text);
+      padding: 10px 12px; font-weight:750;
+      outline:none;
+    }
+    .inp{min-width:260px}
+    .table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+    .table th,.table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;color:var(--muted);font-weight:650}
+    .table th{color:var(--text);font-weight:900}
+    .pill{display:inline-flex;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);gap:8px;align-items:center}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    @media (max-width: 980px){.grid2,.grid3{grid-template-columns:1fr}}
+    .miniChart{display:flex;gap:6px;align-items:flex-end;height:56px;margin-top:10px}
+    .bar{flex:1;border-radius:8px;background:rgba(34,211,238,.18);border:1px solid rgba(255,255,255,.08)}
+    .twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 980px){.twoCol{grid-template-columns:1fr}}
+    textarea.inp{min-width:0;width:100%;min-height:86px;resize:vertical}
+    pre{
+      margin:10px 0 0;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      overflow:auto;
+    }
+    .ok{color:#6ee7b7;font-weight:800}
+    .err{color:#fb7185;font-weight:800}
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="blob blob--a"></div>
+    <div class="blob blob--b"></div>
+    <div class="noise"></div>
+  </div>
+
+  <main class="container adminWrap">
+    <div class="adminTop">
+      <h1 style="margin:0">Admin</h1>
+      <div class="row">
+        <label class="pill">Client:
+          <select id="client" class="select"></select>
+        </label>
+        <a class="btn btn--ghost" id="export" href="/admin/export.csv">Export CSV</a>
+      </div>
+    </div>
+
+    <div class="grid3">
+      <div class="box">
+        <h3 style="margin:0 0 8px">Totals</h3>
+        <div id="totals">Loading…</div>
+      </div>
+      <div class="box">
+        <h3 style="margin:0 0 8px">Events</h3>
+        <div id="events">Loading…</div>
+      </div>
+      <div class="box">
+        <h3 style="margin:0 0 8px">7 Tage KPI</h3>
+        <div class="pill">Leads/Tag</div>
+        <div id="chartLeads" class="miniChart"></div>
+        <div class="pill" style="margin-top:10px">book_demo/Tag</div>
+        <div id="chartDemo" class="miniChart"></div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:18px">
+      <h2 style="margin:0 0 10px">Kunde anlegen (Onboarding)</h2>
+      <div class="box">
+        <div class="twoCol">
+          <div>
+            <div class="pill">client_id (z.B. agentur_meyer)</div>
+            <input id="c_id" class="inp" placeholder="agentur_meyer" />
+          </div>
+          <div>
+            <div class="pill">Brand Name</div>
+            <input id="c_brand" class="inp" placeholder="Meyer Media" />
+          </div>
+
+          <div>
+            <div class="pill">Demo-Link</div>
+            <input id="c_demo" class="inp" placeholder="https://calendly.com/..." />
+          </div>
+          <div>
+            <div class="pill">Lead-Mail an Kunde</div>
+            <input id="c_leadmail" class="inp" placeholder="leads@kunde.de" />
+          </div>
+
+          <div>
+            <div class="pill">Allowed Domains (eine pro Zeile)</div>
+            <textarea id="c_domains" class="inp" placeholder="kunde.de&#10;www.kunde.de"></textarea>
+          </div>
+          <div>
+            <div class="pill">Webhook URL (optional)</div>
+            <input id="c_webhook" class="inp" placeholder="https://hook.make.com/..." />
+          </div>
+
+          <div>
+            <div class="pill">Accent A</div>
+            <input id="c_a" class="inp" placeholder="#a78bfa" />
+          </div>
+          <div>
+            <div class="pill">Accent B</div>
+            <input id="c_b" class="inp" placeholder="#22d3ee" />
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <button class="btn btn--small" id="create">Create Client</button>
+          <button class="btn btn--ghost btn--small" id="rotate" disabled>Rotate Key</button>
+          <a class="btn btn--ghost btn--small" id="preview" href="#" target="_blank" rel="noopener" style="display:none">Preview</a>
+          <span id="msg"></span>
+        </div>
+
+        <div id="out" style="display:none">
+          <div class="pill" style="margin-top:12px">Snippet (copy/paste)</div>
+          <pre id="snippet"></pre>
+          <div class="row">
+            <button class="btn btn--small" id="copy">Copy Snippet</button>
+            <span class="pill">widget_key: <b id="wkey"></b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:18px">
+      <h2 style="margin:0 0 10px">Latest Leads</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Client</th>
+            <th>Email</th>
+            <th>Service</th>
+            <th>Timing</th>
+            <th>Budget</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    function fmt(ts){ return new Date(ts*1000).toLocaleString(); }
+    function esc(s){ return String(s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m])); }
+    function bars(el, rows){
+      el.innerHTML="";
+      const vals=(rows||[]).map(r=>Number(r.c||0));
+      const max=Math.max(1,...vals);
+      (rows||[]).forEach(r=>{
+        const b=document.createElement("div");
+        b.className="bar";
+        b.title=`${r.d}: ${r.c}`;
+        b.style.height=`${Math.max(6,(Number(r.c||0)/max)*56)}px`;
+        el.appendChild(b);
+      });
+    }
+
+    const elClient = document.getElementById("client");
+    const elExport = document.getElementById("export");
+
+    async function loadClients(){
+      const res = await fetch("/admin/clients", {credentials:"same-origin"});
+      const data = await res.json();
+      elClient.innerHTML = `<option value="">(All)</option>` + data.clients.map(c =>
+        `<option value="${esc(c.client_id)}">${esc(c.client_id)} — ${esc(c.name)}</option>`
+      ).join("");
+    }
+
+    async function loadData(){
+      const cid = elClient.value;
+      const qs = cid ? `?client=${encodeURIComponent(cid)}` : "";
+      elExport.href = `/admin/export.csv${qs}`;
+
+      const res = await fetch(`/admin/data${qs}`, {credentials:"same-origin"});
+      const data = await res.json();
+
+      document.getElementById("totals").innerHTML =
+        `<span class="pill">Leads: <b>${data.stats.leads_total || 0}</b></span>`;
+
+      const ev = data.stats.events || {};
+      document.getElementById("events").innerHTML =
+        `<span class="pill">book_demo: <b>${ev.book_demo||0}</b></span>
+         <span class="pill">collect_email: <b>${ev.collect_email||0}</b></span>`;
+
+      bars(document.getElementById("chartLeads"), (data.kpi||{}).leads_daily || []);
+      bars(document.getElementById("chartDemo"), (data.kpi||{}).book_demo_daily || []);
+
+      const tbody = document.getElementById("rows");
+      tbody.innerHTML = "";
+      for(const r of (data.leads || [])){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${esc(fmt(r.ts))}</td>
+          <td>${esc(r.client_id)}</td>
+          <td>${esc(r.email)}</td>
+          <td>${esc(r.service)}</td>
+          <td>${esc(r.timing)}</td>
+          <td>${esc(r.budget)}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    // --- Create client UI ---
+    const msg = document.getElementById("msg");
+    const out = document.getElementById("out");
+    const snippet = document.getElementById("snippet");
+    const wkey = document.getElementById("wkey");
+    const preview = document.getElementById("preview");
+    const rotate = document.getElementById("rotate");
+
+    let lastClientId = "";
+
+    function setMsg(ok, text){
+      msg.className = ok ? "ok" : "err";
+      msg.textContent = text;
+    }
+
+    function parseDomains(text){
+      return (text||"")
+        .split(/[\n,]+/g)
+        .map(s=>s.trim())
+        .filter(Boolean);
+    }
+
+    document.getElementById("create").addEventListener("click", async ()=>{
+      setMsg(true, "Creating…");
+      out.style.display="none";
+      rotate.disabled=true;
+      preview.style.display="none";
+
+      const payload = {
+        client_id: document.getElementById("c_id").value.trim(),
+        brand_name: document.getElementById("c_brand").value.trim(),
+        demo_link: document.getElementById("c_demo").value.trim(),
+        lead_email_to: document.getElementById("c_leadmail").value.trim(),
+        webhook_url: document.getElementById("c_webhook").value.trim(),
+        allowed_domains: parseDomains(document.getElementById("c_domains").value),
+        theme: {
+          accentA: document.getElementById("c_a").value.trim() || "#a78bfa",
+          accentB: document.getElementById("c_b").value.trim() || "#22d3ee"
+        }
+      };
+
+      const res = await fetch("/admin/create-client", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        credentials:"same-origin",
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if(!res.ok){
+        setMsg(false, data.error || "Failed");
+        return;
+      }
+
+      setMsg(true, "✅ Client created");
+      lastClientId = data.client_id;
+
+      snippet.textContent = data.snippet;
+      wkey.textContent = data.widget_key;
+      out.style.display="block";
+
+      preview.href = data.preview_url;
+      preview.style.display="inline-flex";
+      rotate.disabled=false;
+
+      await loadClients();
+    });
+
+    document.getElementById("rotate").addEventListener("click", async ()=>{
+      if(!lastClientId) return;
+      setMsg(true, "Rotating key…");
+
+      const res = await fetch("/admin/rotate-key", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        credentials:"same-origin",
+        body: JSON.stringify({client_id:lastClientId})
+      });
+
+      const data = await res.json();
+      if(!res.ok){
+        setMsg(false, data.error || "Failed");
+        return;
+      }
+      setMsg(true, "✅ Key rotated (update snippet on customer site!)");
+      wkey.textContent = data.widget_key;
+    });
+
+    document.getElementById("copy").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(snippet.textContent);
+        setMsg(true, "Copied ✅");
+      }catch(e){
+        setMsg(false, "Copy failed — mark text and copy manually.");
+      }
+    });
+
+    (async function(){
+      await loadClients();
+      await loadData();
+      elClient.addEventListener("change", loadData);
+    })();
+  </script>
+</body>
+</html>

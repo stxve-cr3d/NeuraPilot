@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <style>
+    body{margin:0}
+    .embedShell{height:100vh; display:flex; flex-direction:column;}
+    .embedTop{padding:12px 12px; border-bottom:1px solid var(--line); background:rgba(7,10,18,.85)}
+    .embedTop b{display:block}
+    .embedTop span{color:var(--muted); font-weight:650; font-size:.92rem}
+    .embedChat{flex:1}
+  </style>
+</head>
+<body data-client="{{ client_id }}">
+  <div class="embedShell">
+    <div class="embedTop">
+      <b id="brandName">NeuraPilot</b>
+      <span>Antwortet • qualifiziert • bucht Termine</span>
+    </div>
+
+    <div class="embedChat">
+      <div class="chat" style="padding:12px">
+        <div class="chat__msgs" id="msgs"></div>
+        <div class="chat__typing" id="typing" hidden>
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <div class="chat__bar">
+          <input id="input" class="chat__input" placeholder="Schreib eine Nachricht…" autocomplete="off"/>
+          <button id="send" class="btn btn--small">Senden</button>
+        </div>
+
+        <div class="chat__actions" id="actions" hidden>
+          <a class="btn btn--ghost" id="actionDemo" href="#" target="_blank" rel="noopener">Demo buchen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

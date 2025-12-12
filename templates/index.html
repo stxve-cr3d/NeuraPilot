@@ -1,54 +1,206 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>BusinessPilot AI</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>NeuraPilot — KI für Leads & Support</title>
+  <meta name="description" content="Qualifiziert Leads, behandelt Einwände und bucht Termine — 24/7."/>
+  <link rel="stylesheet" href="/static/style.css"/>
 </head>
-<body>
+<body data-client="{{ client_id }}">
+  <div class="bg">
+    <div class="blob blob--a"></div>
+    <div class="blob blob--b"></div>
+    <div class="noise"></div>
+  </div>
 
-<h1>Dein KI-Mitarbeiter für Verkauf & Kundenanfragen</h1>
-<p>Beantwortet Anfragen, qualifiziert Leads und bucht Termine – 24/7.</p>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="#">
+        <span class="brand__mark" id="brandMark">NP</span>
+        <span class="brand__name" id="brandName">NeuraPilot</span>
+      </a>
 
-<div id="chatbox">
-  <div id="messages"></div>
-  <input id="input" placeholder="Schreib deine Frage..." />
-  <button onclick="send()">Senden</button>
+      <nav class="nav">
+        <a href="#features" id="navFeatures">Features</a>
+        <a href="#how" id="navHow">So funktioniert’s</a>
+        <a href="#pricing" id="navPricing">Preise</a>
+        <a class="btn btn--ghost" id="navDemo" href="#" target="_blank" rel="noopener">Demo buchen</a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobileNav" id="mobileNav" aria-hidden="true">
+      <a href="#features">Features</a>
+      <a href="#how">So funktioniert’s</a>
+      <a href="#pricing">Preise</a>
+      <a class="btn" id="mobileDemo" href="#" target="_blank" rel="noopener">Demo buchen</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero__left reveal">
+        <div class="badge" id="badge">Live-Demo</div>
+        <h1 id="headline">Dein KI-Mitarbeiter für Leads, Support & Termine.</h1>
+        <p class="sub" id="subheadline"></p>
+
+        <div class="cta">
+          <a class="btn" id="primaryCta" href="#" target="_blank" rel="noopener">Kostenlose Demo buchen</a>
+          <a class="btn btn--ghost" id="secondaryCta" href="#demo">Live testen</a>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi__top">⏱️ Antwortzeit</div>
+            <div class="kpi__val">&lt; 3s</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi__top">📈 Fokus</div>
+            <div class="kpi__val">Conversion</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi__top">🧠 Qualität</div>
+            <div class="kpi__val">Sales-ready</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__right reveal" id="demo">
+        <div class="card">
+          <div class="card__head">
+            <div>
+              <div class="card__title" id="chatTitle">Live Chat Demo</div>
+              <div class="card__sub" id="chatSubtitle">Teste den Bot wie ein echter Kunde.</div>
+            </div>
+            <a class="link" id="demoLinkTop" href="#" target="_blank" rel="noopener">Termin</a>
+          </div>
+
+          <div class="chat">
+            <div class="chat__msgs" id="msgs" aria-live="polite"></div>
+
+            <div class="chat__typing" id="typing" hidden>
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+
+            <div class="chat__bar">
+              <input id="input" class="chat__input" autocomplete="off" aria-label="Nachricht"/>
+              <button id="send" class="btn btn--small">Senden</button>
+            </div>
+
+            <div class="chat__hint" id="chatHint"></div>
+
+<div class="chat__actions" id="actions" hidden>
+  <a class="btn btn--ghost" id="actionDemo" href="#" target="_blank" rel="noopener">Demo buchen</a>
 </div>
 
-<h2>Warum BusinessPilot AI?</h2>
-<ul>
-  <li>Mehr Leads</li>
-  <li>Weniger Zeitverlust</li>
-  <li>Kein Personal</li>
-</ul>
+<div class="leadbar" id="leadbar" hidden>
+  <input class="leadbar__input" id="leadEmail" type="email" placeholder="Deine E-Mail (für Setup/Info)" />
+  <button class="btn btn--small" id="leadSend">Senden</button>
+</div>
+
+<div class="leadbar__hint" id="leadHint" hidden>
+  Wir schicken dir nur das Setup/Infos — kein Spam.
+</div>
+          </div>
+        </div>
+
+        <div class="micro">
+          <span>✓ Mobile-first</span>
+          <span>✓ Multi-Client ready</span>
+          <span>✓ In Minuten integrierbar</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section reveal">
+      <h2 id="featuresTitle">Features</h2>
+      <p class="section__sub" id="featuresSubtitle"></p>
+
+      <div class="grid">
+        <div class="box">
+          <h3>Lead-Qualifizierung</h3>
+          <p>Bedarf, Timing, Budget — sauber strukturiert, damit du nur warme Leads bekommst.</p>
+        </div>
+        <div class="box">
+          <h3>Einwandbehandlung</h3>
+          <p>„Zu teuer“, „Wir überlegen noch“ — ruhig, überzeugend, ohne Druck.</p>
+        </div>
+        <div class="box">
+          <h3>Termin-Flow</h3>
+          <p>Wenn Interesse da ist, führt der Bot zum nächsten Schritt: Demo, Call, Angebot.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section reveal">
+      <h2>So funktioniert’s</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step__n">1</div>
+          <div>
+            <div class="step__t">Einbauen</div>
+            <div class="step__p">Widget auf Website — fertig.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__n">2</div>
+          <div>
+            <div class="step__t">Qualifizieren</div>
+            <div class="step__p">3 Fragen → klare Struktur.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__n">3</div>
+          <div>
+            <div class="step__t">Konvertieren</div>
+            <div class="step__p">Warme Leads → Kalender.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<button class="btn" onclick="buy('starter')">Starter buchen</button>
+<button class="btn" onclick="buy('growth')">Growth buchen</button>
+<button class="btn" onclick="buy('pro')">Pro buchen</button>
 
 <script>
-async function send() {
-  const input = document.getElementById("input");
-  const msg = input.value;
-  if (!msg) return;
-
-  addMessage("Du", msg);
-  input.value = "";
-
-  const res = await fetch("/chat", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({message: msg})
+async function buy(plan){
+  const r = await fetch("/billing/checkout", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({plan})
   });
-
-  const data = await res.json();
-  addMessage("Bot", data.reply);
-}
-
-function addMessage(sender, text) {
-  const messages = document.getElementById("messages");
-  const div = document.createElement("div");
-  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  messages.appendChild(div);
+  const d = await r.json();
+  if(d.url) window.location.href = d.url;
+  else alert(d.error || "Payment error");
 }
 </script>
 
+    <section class="section reveal">
+      <div class="ctaCard">
+        <div>
+          <h2 id="closingTitle"></h2>
+          <p id="closingSubtitle"></p>
+        </div>
+        <a class="btn" id="closingCta" href="#" target="_blank" rel="noopener">Jetzt Demo buchen</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>© <span id="year"></span> <span id="brandNameFooter">NeuraPilot</span></div>
+      <div class="footer__links">
+        <a href="/health">Status</a>
+        <a id="footerDemo" href="#" target="_blank" rel="noopener">Demo</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/app.js" defer></script>
 </body>
 </html>
